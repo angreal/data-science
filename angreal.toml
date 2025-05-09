@@ -1,0 +1,36 @@
+project_name='Your Project Name'
+project_slug='{{ project_name | lower | replace(from=" ", to="-") }}'
+package_name='{{ project_slug | replace(from="-", to="_") }}'
+project_desc_short='A short description of the project'
+environment_prefix= '{{ project_slug | upper | truncate(length=4, end="__") }}'
+
+# Optional components
+with_database="false"
+with_frontend="false"
+with_app="false"
+
+[prompt]
+project_name = "What is the name of your project?"
+project_slug = "What would you like the project slug for your project to be?"
+package_name = "What would you like the name of your python package to be?"
+project_desc_short = "Can you give a short (1-2 sentence) description of your project?"
+environment_prefix = "What would you like the environment variable prefix for your project to be?"
+
+# Optional components prompts
+with_database = "Would you like to include database support with migrations? (true/false)"
+with_frontend = "Would you like to include a Streamlit frontend? (true/false)"
+with_app = "Would you like to include application deployment scripts? (true/false)"
+
+[validation]
+project_name.not_empty = true
+project_slug.not_empty = true
+package_name.not_empty = true
+environment_prefix.not_empty = true
+
+# Optional components validations
+with_database.type = "string"
+with_database.allowed_values = ["true", "false"]
+with_frontend.type = "string"
+with_frontend.allowed_values = ["true", "false"]
+with_app.type = "string"
+with_app.allowed_values = ["true", "false"]

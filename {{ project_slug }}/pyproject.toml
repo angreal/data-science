@@ -1,0 +1,165 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{ package_name }}"
+dynamic = ["version"]
+description = "{{ project_desc_short }}"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+
+
+# These dependencies are installed no matter what
+dependencies = [
+    # Core dependencies
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    
+    # UI dependencies
+    "click>=8.0.0",
+    
+    # Database dependencies
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.12.0",
+    
+    # Frontend dependencies
+    "streamlit>=1.30.0",
+    
+    # ML dependencies
+    
+]
+
+[project.optional-dependencies]
+
+# Tools needed for development
+dev = [
+    # Testing
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    
+    # Code quality
+    "ruff>=0.2.0",
+    
+]
+
+# Tools needed for documentation compilation
+docs = [
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=8.5.0",
+    "mkdocstrings>=0.19.0",
+    "mkdocstrings-python>=0.8.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.1.0",
+]
+
+# Tools needed for using jupyter notebooks
+notebooks = [
+    "jupyter>=1.0.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "nbval>=0.10.0",       # For notebook testing
+    "ipykernel>=6.0.0",    # Required for notebook execution
+]
+
+
+
+# The nuclear option
+all = [
+    "{{ package_name }}[dev]",
+    "{{ package_name }}[docs]",
+    "{{ package_name }}[notebooks]",
+]
+
+[project.scripts]
+{{ package_name }} = "{{ package_name }}.cli:cli"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = {find = {where = ["src"], include = ["test", "test.*"]}}
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "test.__version__"}
+
+[tool.setuptools.package-data]
+{{ package_name}} = ["*","**/*"]
+
+
+
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.8
+target-version = "py38"
+
+[tool.ruff.lint]
+# Enable Pyflakes `F` and pycodestyle `E` codes by default.
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+    "B",   # flake8-bugbear
+    "C90", # mccabe complexity
+    "T20", # flake8-print
+    "TID", # flake8-tidy-imports
+    "TCH", # flake8-type-checking
+    "RUF", # ruff-specific rules
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.isort]
+known-first-party = ["{{ package_name }}"]
+
+[tool.ruff.format]
+# Use double quotes for strings.
+quote-style = "double"
+
+# Indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, respect magic trailing commas.
+line-ending = "auto" 
