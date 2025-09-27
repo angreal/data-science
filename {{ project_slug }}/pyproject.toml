@@ -24,7 +24,10 @@ classifiers = [
 ]
 requires-python = ">=3.9"
 dependencies = [
-    # Add runtime dependencies here
+    # Core dependencies for configuration management
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
 ]
 
 # [project.urls]
@@ -48,6 +51,21 @@ dev = [
     "angreal",
 ]
 
+# Tools needed for using jupyter notebooks
+notebooks = [
+    "jupyter>=1.0.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "nbval>=0.10.0",       # For notebook testing
+    "ipykernel>=6.0.0",    # Required for notebook execution
+]
+
+# All optional dependencies
+all = [
+    "{{ project_slug }}[dev]",
+    "{{ project_slug }}[notebooks]",
+]
+
 [tool.setuptools.dynamic]
 version = {attr = "{{ package_name }}.__version__"}
 
@@ -64,6 +82,7 @@ line-length = 110
 target-version = "py39"
 exclude = [
     ".angreal",
+    "notebooks",
 ]
 
 [tool.ruff.lint]
@@ -115,6 +134,7 @@ source = ["src/{{ package_name }}"]
 omit = [
     "*/tests/*",
     "*/__main__.py",
+    "notebooks/*",
 ]
 
 [tool.coverage.report]

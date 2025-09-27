@@ -1,17 +1,20 @@
 # Default values for template variables
 author_name = "Your Name"
 author_email = "your.email@example.com"
-project_name = "My Python Project"
-project_slug = '{{ project_name | lower | replace(from=" ", to="-") }}'
+project_name = "Customer Analytics Project"
+project_slug = '{{ project_name | lower | replace(from=" ", to="-") | truncate(length=20, end="") }}'
 package_name = '{{ project_slug | replace(from="-", to="_") }}'
-project_short_description = "A short description of the project"
+project_short_description = "Data analysis and modeling to understand customer behavior patterns"
+environment_prefix = '{{ package_name | upper }}_'
 
 # Prompts to help users understand each variable
 [prompt]
-author_name = "Your full name for the package metadata and license"
-author_email = "Your email address for package metadata (e.g., you@example.com)"
-project_name = "The human-readable name of your project (used in README, docs)"
-project_short_description = "A brief one-line description of what your project does"
+author_name = "Your full name (data scientist/analyst working on this project)"
+author_email = "Your email address for project metadata and collaboration"
+project_name = "The descriptive name of your analysis project (e.g., 'Sales Forecasting Analysis', 'Customer Churn Prediction')"
+project_slug = "Short technical name for directories and URLs (lowercase, hyphens only, e.g., 'sales-forecast', 'churn-analysis')"
+project_short_description = "Brief description of your analysis goals and domain"
+environment_prefix = "Prefix for environment variables (auto-generated from project slug)"
 
 # Validation rules to ensure proper formatting
 [validation]
