@@ -97,7 +97,17 @@ setup_notebook()
 
 # Now you can import your project modules
 import {{ package_name }}
+from {{ package_name }}.core.settings import get_settings
+
+# Example usage
+settings = get_settings()
+print(f"Current log level: {settings.log_level}")
 ```
+
+The `setup_notebook()` function provides:
+- **Automatic module reloading** - Changes to your code are picked up without restarting the kernel
+- **Project path management** - Your package is automatically importable
+- **Clean environment** - Consistent setup across all notebooks
 
 ### Development Commands
 
@@ -130,9 +140,30 @@ angreal task dev
    - Include key methodology or approach
    - Examples: "EDA Customer Segments", "Feature Engineering v2", "Model Comparison Random Forest vs XGBoost"
 
-4. **Commit regularly within epochs**
+4. **Migrate useful code to the src directory**
+   - Extract reusable functions and classes from notebooks
+   - Move proven data processing pipelines to `src/{{ package_name }}/`
+   - Write unit tests for extracted code in `tests/`
+   - Import and use these modules in future epochs for consistency
+
+5. **Commit regularly within epochs**
    - After completing each notebook analysis
    - When reaching significant milestones
    - Before starting new experimental directions
+
+**Code Migration Workflow:**
+```python
+# In notebook: Develop and test functionality
+def clean_customer_data(df):
+    # Data cleaning logic discovered through exploration
+    return cleaned_df
+
+# Move to: src/{{ package_name }}/data/preprocessing.py
+# Test in: tests/unit/data/test_preprocessing.py
+# Reuse in future epochs:
+from {{ package_name }}.data.preprocessing import clean_customer_data
+```
+
+This ensures that valuable discoveries become reusable assets for both production systems and future analytical work.
 
 This project was generated using a modern data science template with epoch-based workflow patterns.
