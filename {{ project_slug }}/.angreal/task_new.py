@@ -14,9 +14,11 @@ new = angreal.command_group(name='new', about='Create new project components')
                  help='Short description of the epoch', required=False)
 def new_epoch(description=""):
     """Create a new epoch directory with incrementing number."""
-    
+
     # Get the notebooks directory
-    project_root = angreal.get_root()
+    # angreal.get_root() returns the .angreal directory, so we go up one level for project root
+    angreal_dir = angreal.get_root()
+    project_root = os.path.join(angreal_dir, "..")
     notebooks_dir = os.path.join(project_root, "notebooks")
     
     # Create notebooks directory if it doesn't exist
@@ -40,7 +42,7 @@ def new_epoch(description=""):
     os.makedirs(new_epoch_dir, exist_ok=True)
     
     # Create README.md for the new epoch
-    templates_dir = os.path.join(project_root, "templates")
+    templates_dir = os.path.join(angreal_dir, "templates")
     readme_template = os.path.join(templates_dir, "notebooks", "epoch_readme.md")
     
     # Create context for template rendering
@@ -77,9 +79,11 @@ def new_epoch(description=""):
                  help='Specific epoch to create the notebook in (e.g., "001")', required=False)
 def new_notebook(title, author=None, epoch=None):
     """Create a new notebook from template in the current or specified epoch."""
-    
+
     # Get the notebooks directory
-    project_root = angreal.get_root()
+    # angreal.get_root() returns the .angreal directory, so we go up one level for project root
+    angreal_dir = angreal.get_root()
+    project_root = os.path.join(angreal_dir, "..")
     notebooks_dir = os.path.join(project_root, "notebooks")
     
     if not os.path.exists(notebooks_dir):
@@ -126,7 +130,7 @@ def new_notebook(title, author=None, epoch=None):
     notebook_path = os.path.join(epoch_dir, notebook_filename)
     
     # Get the notebook template
-    templates_dir = os.path.join(project_root, "templates")
+    templates_dir = os.path.join(angreal_dir, "templates")
     notebook_template_path = os.path.join(templates_dir, "notebooks", "notebook_template.ipynb")
     
     try:
